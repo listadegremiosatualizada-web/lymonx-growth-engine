@@ -3,19 +3,19 @@ import { Quote } from "lucide-react";
 
 const testimonials = [
   {
-    quote: "Eu vivia apagando incêndios no WhatsApp. Hoje tenho equipe organizada por setores e vendo até quando estou fora da empresa.",
+    quote: "Eu vivia apagando incêndios. Hoje tenho equipe organizada e vendo até quando estou fora.",
     author: "Carlos Mendes",
-    company: "Diretor Comercial da Mendes Alimentos Industriais",
+    company: "Mendes Alimentos",
   },
   {
-    quote: "A LymonX não organizou só meu atendimento. Organizou minha empresa inteira.",
+    quote: "A LymonX organizou minha empresa inteira.",
     author: "Juliana Ribeiro",
-    company: "CEO da Grupo Vida Plena Clínicas Integradas",
+    company: "Grupo Vida Plena",
   },
 ];
 
 const SocialProof = () => (
-  <section id="depoimentos" className="section-padding">
+  <section className="section-padding">
     <div className="max-w-6xl mx-auto grid md:grid-cols-2 gap-6">
       {testimonials.map((t, i) => (
         <motion.div

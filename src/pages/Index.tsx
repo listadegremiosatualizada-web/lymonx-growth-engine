@@ -5,7 +5,6 @@ import Manifesto from "@/components/Manifesto";
 import Features from "@/components/Features";
 import Pricing from "@/components/Pricing";
 import Results from "@/components/Results";
-import CtaFinal from "@/components/CtaFinal";
 import Footer from "@/components/Footer";
 
 const Index = () => (
@@ -18,7 +17,6 @@ const Index = () => (
       <Features />
       <Pricing />
       <Results />
-      <CtaFinal />
     </main>
     <Footer />
   </div>
