@@ -3,11 +3,11 @@ import { useState, useEffect } from "react";
 import { Zap } from "lucide-react";
 
 const phrases = [
-  "Imagine a liberdade.",
-  "Uma vida com mais tempo.",
-  "Para sua família.",
-  "Para seus projetos.",
-  "Para viver.",
+  "Imagine…",
+  "Uma vida com mais tempo. Tempo para sua família. Tempo para novos projetos. Tempo para viver.",
+  "Imagine seus clientes sendo atendidos imediatamente. Mesmo quando você estiver jantando. Mesmo quando estiver dormindo.",
+  "Imagine atender dezenas de clientes ao mesmo tempo no WhatsApp. Fechar pedidos. Organizar sua equipe. Escalar suas vendas.",
+  "Imagine nunca mais perder dinheiro por falta de atendimento.",
 ];
 
 const HeroSection = () => {
@@ -16,10 +16,10 @@ const HeroSection = () => {
 
   useEffect(() => {
     if (currentPhrase < phrases.length - 1) {
-      const timer = setTimeout(() => setCurrentPhrase((p) => p + 1), 2200);
+      const timer = setTimeout(() => setCurrentPhrase((p) => p + 1), 3000);
       return () => clearTimeout(timer);
     } else {
-      const timer = setTimeout(() => setShowMain(true), 2000);
+      const timer = setTimeout(() => setShowMain(true), 2500);
       return () => clearTimeout(timer);
     }
   }, [currentPhrase]);
@@ -32,7 +32,7 @@ const HeroSection = () => {
       <div className="relative z-10 max-w-5xl mx-auto text-center">
         {/* Animated phrases */}
         {!showMain && (
-          <div className="h-[120px] md:h-[160px] flex items-center justify-center">
+          <div className="min-h-[200px] md:min-h-[260px] flex items-center justify-center px-4">
             <AnimatePresence mode="wait">
               <motion.h2
                 key={currentPhrase}
@@ -40,7 +40,7 @@ const HeroSection = () => {
                 animate={{ opacity: 1, y: 0 }}
                 exit={{ opacity: 0, y: -20 }}
                 transition={{ duration: 0.6, ease: "easeOut" }}
-                className="text-4xl md:text-6xl lg:text-7xl font-bold font-display text-foreground"
+                className="text-3xl md:text-5xl lg:text-6xl font-bold font-display text-foreground leading-tight"
               >
                 {phrases[currentPhrase]}
               </motion.h2>
@@ -56,15 +56,10 @@ const HeroSection = () => {
             transition={{ duration: 0.8, ease: "easeOut" }}
           >
             <h1 className="text-4xl md:text-6xl lg:text-[5rem] font-bold font-display leading-tight mb-8">
-              <span className="gradient-text">LymonX:</span>{" "}
-              <span className="text-foreground">Uma nova era para quem decidiu crescer.</span>
+              <span className="neon-text">Como seria isso para você?</span>
+              <br />
+              <span className="text-foreground">Seria liberdade. Seria organização. Seria crescimento.</span>
             </h1>
-
-            <p className="text-lg md:text-xl text-muted-foreground max-w-3xl mx-auto mb-12 leading-relaxed">
-              Imagine atender no WhatsApp, fechar pedidos e organizar sua equipe enquanto
-              você dorme. Não vendemos software.{" "}
-              <span className="text-foreground font-medium">Vendemos estrutura.</span>
-            </p>
 
             <motion.a
               href="#planos"

@@ -2,7 +2,7 @@ import { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { Menu, X } from "lucide-react";
 
-const navLinks = ["Início", "Plataforma", "Funcionalidades", "Planos"];
+const navLinks = ["Início", "Plataforma", "Funcionalidades", "Planos", "Depoimentos", "Quem Somos"];
 
 const Header = () => {
   const [mobileOpen, setMobileOpen] = useState(false);

@@ -16,9 +16,9 @@ const Manifesto = () => (
         whileInView={{ opacity: 1, y: 0 }}
         viewport={{ once: true }}
         transition={{ duration: 0.6 }}
-        className="text-3xl md:text-5xl lg:text-6xl font-bold font-display mb-6"
+        className="text-3xl md:text-5xl lg:text-6xl font-bold font-display mb-6 uppercase"
       >
-        Não vendemos <span className="gradient-text">sistemas.</span>
+        Não vendemos <span className="gradient-text">sistemas</span>
       </motion.h2>
 
       <motion.p
@@ -26,9 +26,9 @@ const Manifesto = () => (
         whileInView={{ opacity: 1, y: 0 }}
         viewport={{ once: true }}
         transition={{ duration: 0.6, delay: 0.1 }}
-        className="text-muted-foreground text-lg max-w-2xl mx-auto mb-16"
+        className="text-muted-foreground text-lg md:text-xl max-w-3xl mx-auto mb-16"
       >
-        Vendemos os pilares que transformam empresas comuns em operações extraordinárias.
+        Vendemos tranquilidade. Vendemos estrutura. Vendemos crescimento previsível.
       </motion.p>
 
       <div className="grid grid-cols-2 md:grid-cols-4 gap-6">
