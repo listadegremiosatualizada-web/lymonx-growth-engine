@@ -3,44 +3,46 @@ import { Check, Zap } from "lucide-react";
 
 const plans = [
   {
-    name: "Starter",
-    price: "R$ 297",
+    name: "Mensal",
+    price: "R$ 997",
     period: "/mês",
     badge: null,
+    subtitle: "Organização imediata.",
     features: [
-      "Multiatendimento (3 atendentes)",
-      "CRM Kanban básico",
-      "Agendamentos",
+      "Multiatendimento completo",
+      "CRM Kanban",
+      "Atendimento Inteligente",
+      "Agendamentos automáticos",
       "Suporte por e-mail",
     ],
     highlighted: false,
   },
   {
-    name: "Ecossistema Completo",
+    name: "Anual",
     price: "R$ 697",
     period: "/mês",
     badge: "RECOMENDADO PARA GRANDES OPERAÇÕES",
+    subtitle: "R$ 8.364/ano — Melhor custo-benefício.",
     features: [
-      "Multiatendimento ilimitado",
-      "CRM Kanban avançado",
-      "IA Inteligente integrada",
-      "Agendamentos + Follow-ups",
-      "Integrações (Typebot, n8n, Webhooks)",
+      "Tudo do plano Mensal",
       "Implantação personalizada",
       "Treinamento estratégico",
+      "Acompanhamento da estrutura",
+      "Integrações avançadas",
+      "Suporte prioritário",
     ],
     highlighted: true,
   },
   {
-    name: "Enterprise",
-    price: "Sob consulta",
-    period: "",
+    name: "Semestral",
+    price: "R$ 897",
+    period: "/mês",
     badge: null,
+    subtitle: "R$ 5.382/semestre — Mais economia e estabilidade.",
     features: [
-      "Tudo do plano Completo",
-      "API dedicada",
-      "SLA personalizado",
-      "Gerente de conta exclusivo",
+      "Tudo do plano Mensal",
+      "Integrações avançadas",
+      "Suporte prioritário",
     ],
     highlighted: false,
   },
@@ -54,10 +56,20 @@ const Pricing = () => (
         whileInView={{ opacity: 1, y: 0 }}
         viewport={{ once: true }}
         transition={{ duration: 0.6 }}
-        className="text-3xl md:text-5xl lg:text-6xl font-bold font-display text-center mb-16"
+        className="text-3xl md:text-5xl lg:text-6xl font-bold font-display text-center mb-6"
       >
-        Escolha seu <span className="gradient-text">plano</span>
+        Planos para empresas <span className="gradient-text">estruturadas</span>
       </motion.h2>
+
+      <motion.p
+        initial={{ opacity: 0, y: 20 }}
+        whileInView={{ opacity: 1, y: 0 }}
+        viewport={{ once: true }}
+        transition={{ duration: 0.6, delay: 0.1 }}
+        className="text-muted-foreground text-lg text-center max-w-2xl mx-auto mb-16"
+      >
+        Escolha o plano ideal para a sua operação.
+      </motion.p>
 
       <div className="grid md:grid-cols-3 gap-6 items-start">
         {plans.map((plan, i) => (
@@ -68,9 +80,7 @@ const Pricing = () => (
             viewport={{ once: true }}
             transition={{ duration: 0.5, delay: i * 0.1 }}
             className={`glass-card p-8 md:p-10 flex flex-col relative ${
-              plan.highlighted
-                ? "neon-border md:scale-105 md:-my-4"
-                : ""
+              plan.highlighted ? "neon-border md:scale-105 md:-my-4" : ""
             }`}
           >
             {plan.badge && (
@@ -80,12 +90,13 @@ const Pricing = () => (
             )}
 
             <h3 className="font-display text-xl font-bold text-foreground mb-2">{plan.name}</h3>
-            <div className="flex items-baseline gap-1 mb-8">
+            <div className="flex items-baseline gap-1 mb-2">
               <span className={`text-4xl font-bold font-display ${plan.highlighted ? "neon-text" : "text-foreground"}`}>
                 {plan.price}
               </span>
               <span className="text-muted-foreground text-sm">{plan.period}</span>
             </div>
+            <p className="text-sm text-muted-foreground mb-8">{plan.subtitle}</p>
 
             <ul className="space-y-3 mb-10 flex-1">
               {plan.features.map((f) => (
@@ -105,7 +116,7 @@ const Pricing = () => (
               }`}
             >
               {plan.highlighted && <Zap className="w-4 h-4" />}
-              {plan.price === "Sob consulta" ? "Fale Conosco" : "Começar Agora"}
+              Começar Agora
             </a>
           </motion.div>
         ))}
