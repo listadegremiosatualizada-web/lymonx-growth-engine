@@ -11,8 +11,7 @@ const CtaFinal = () => (
         transition={{ duration: 0.6 }}
         className="text-3xl md:text-5xl lg:text-6xl font-bold font-display mb-8 leading-tight"
       >
-        Não continue lutando contra o caos.{" "}
-        <span className="gradient-text">Pare de perder vendas.</span>
+        Não continue lutando contra o caos. <span className="gradient-text">Pare de perder vendas.</span>
         <br />
         Viva a liberdade de tempo.
       </motion.h2>
@@ -25,7 +24,7 @@ const CtaFinal = () => (
         transition={{ duration: 0.6, delay: 0.2 }}
         whileHover={{ scale: 1.05 }}
         whileTap={{ scale: 0.97 }}
-        className="inline-flex items-center gap-3 px-10 py-5 text-lg font-semibold rounded-full bg-primary text-primary-foreground neon-glow-box hover:brightness-110 transition-all duration-300 animate-pulse-neon"
+        className="inline-flex items-center gap-3 px-10 py-5 text-lg font-semibold rounded-full bg-primary text-white neon-glow-box hover:brightness-110 transition-all duration-300 animate-pulse-neon"
       >
         <Zap className="w-5 h-5" />
         Comece Agora – Entre no Ecossistema LymonX
