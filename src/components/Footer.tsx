@@ -38,6 +38,17 @@ const Footer = () => (
         <p className="text-sm text-muted-foreground">
           © 2026 LymonX. Todos os direitos reservados.
         </p>
+        <p className="text-sm text-muted-foreground">
+          Empresa do Grupo{" "}
+          <a
+            href="https://www.wayweb.com.br"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="text-primary hover:underline transition-colors"
+          >
+            Wayweb
+          </a>
+        </p>
       </div>
     </div>
   </footer>
