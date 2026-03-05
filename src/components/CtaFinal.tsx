@@ -11,7 +11,6 @@ const CtaFinal = () => (
         transition={{ duration: 0.6 }}
         className="text-3xl md:text-5xl lg:text-6xl font-bold font-display mb-8 leading-tight"
       >
-        Não continue lutando contra o caos.{" "}
         <span className="gradient-text">Pare de perder vendas.</span>
         <br />
         Viva a liberdade de tempo.

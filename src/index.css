@@ -7,7 +7,7 @@
 @layer base {
   :root {
     --background: 0 0% 0%;
-    --foreground: 0 0% 100%;
+    --foreground: 120 20% 98%;
 
     --card: 0 0% 6%;
     --card-foreground: 0 0% 100%;
@@ -60,8 +60,14 @@
     font-family: 'Inter', system-ui, sans-serif;
   }
 
-  h1, h2, h3, h4, h5, h6 {
+  h1,
+  h2,
+  h3,
+  h4,
+  h5,
+  h6 {
     font-family: 'Space Grotesk', 'Inter', sans-serif;
+    @apply text-primary/90;
   }
 }
 
