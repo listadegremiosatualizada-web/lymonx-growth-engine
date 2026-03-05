@@ -59,8 +59,8 @@ const HeroSection = () => {
             </h1>
 
             <p className="text-lg md:text-xl text-muted-foreground max-w-3xl mx-auto mb-12 leading-relaxed">
-              Imagine atender no WhatsApp, fechar pedidos e organizar sua equipe enquanto você dorme. Não vendemos
-              software. <span className="text-foreground font-medium">Vendemos estrutura.</span>
+              Imagine atender no WhatsApp, fechar pedidos e organizar (sua equipe por 24h) enquanto você dorme. Não
+              vendemos software. <span className="text-foreground font-medium">Vendemos estrutura.</span>
             </p>
 
             <motion.a
