@@ -7,6 +7,7 @@ import Pricing from "@/components/Pricing";
 import Results from "@/components/Results";
 import CtaFinal from "@/components/CtaFinal";
 import Footer from "@/components/Footer";
+import WhatsAppButton from "@/components/WhatsAppButton";
 
 const Index = () => (
   <div className="min-h-screen bg-background">
@@ -21,6 +22,7 @@ const Index = () => (
       <CtaFinal />
     </main>
     <Footer />
+    <WhatsAppButton />
   </div>
 );
 
