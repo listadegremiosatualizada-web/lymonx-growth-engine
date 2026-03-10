@@ -3,9 +3,9 @@ import { useState, useEffect } from "react";
 import { Zap } from "lucide-react";
 
 const phrases = [
-  "Resultado.",
-  "Escala.",
-  "Organização.",
+  "Como seria atender no WhatsApp,",
+  "fechar pedidos e organizar",
+  "sua equipe por 24h?",
 ];
 
 const HeroSection = () => {
@@ -59,8 +59,9 @@ const HeroSection = () => {
             </h1>
 
             <p className="text-lg md:text-xl text-muted-foreground max-w-3xl mx-auto mb-12 leading-relaxed">
-              Como seria atender no WhatsApp, fechar pedidos e organizar (sua equipe por 24h). Não
-              vendemos software. <span className="text-foreground font-medium">Vendemos estrutura.</span>
+              Nós somos a LymonX, um hub de tecnologia que ajuda empresas a vender mais através de{" "}
+              <span className="text-foreground font-medium">automação, inteligência artificial</span> e
+              soluções digitais como sites, dashboards e agentes de atendimento.
             </p>
 
             <motion.a
