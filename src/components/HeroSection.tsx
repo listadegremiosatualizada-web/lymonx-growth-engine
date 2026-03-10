@@ -3,9 +3,9 @@ import { useState, useEffect } from "react";
 import { Zap } from "lucide-react";
 
 const phrases = [
-  "Resultado.",
-  "Escala.",
-  "Organização.",
+  "Como seria atender no WhatsApp,",
+  "fechar pedidos e organizar",
+  "sua equipe por 24h?",
 ];
 
 const HeroSection = () => {
