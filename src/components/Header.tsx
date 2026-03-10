@@ -2,7 +2,13 @@ import { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { Menu, X } from "lucide-react";
 
-const navLinks = ["Início", "Quem Somos", "Planos", "Depoimentos"];
+const navLinks = [
+  { label: "Início", href: "#" },
+  { label: "Quem Somos", href: "#plataforma" },
+  { label: "Funcionalidades", href: "#funcionalidades" },
+  { label: "Planos", href: "#planos" },
+  { label: "Depoimentos", href: "#depoimentos" },
+];
 
 const Header = () => {
   const [mobileOpen, setMobileOpen] = useState(false);
@@ -23,11 +29,11 @@ const Header = () => {
         <nav className="hidden md:flex items-center gap-8">
           {navLinks.map((link) => (
             <a
-              key={link}
-              href={`#${link.toLowerCase()}`}
+              key={link.label}
+              href={link.href}
               className="text-sm text-muted-foreground hover:text-foreground transition-colors duration-200"
             >
-              {link}
+              {link.label}
             </a>
           ))}
         </nav>
@@ -60,12 +66,12 @@ const Header = () => {
             <nav className="flex flex-col gap-4 px-6 py-6">
               {navLinks.map((link) => (
                 <a
-                  key={link}
-                  href={`#${link.toLowerCase()}`}
+                  key={link.label}
+                  href={link.href}
                   onClick={() => setMobileOpen(false)}
                   className="text-muted-foreground hover:text-foreground transition-colors"
                 >
-                  {link}
+                  {link.label}
                 </a>
               ))}
               <a
