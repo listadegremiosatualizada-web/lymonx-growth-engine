@@ -1,19 +1,13 @@
 import { motion, useInView } from "framer-motion";
 import { Quote } from "lucide-react";
 import { useRef, useEffect, useState } from "react";
+import { useLanguage } from "@/i18n/LanguageContext";
 
-const testimonials = [
-  { quote: "Saímos do caos para uma operação organizada e aumentamos 34% nossa conversão.", author: "Marcelo Ferreira", company: "Ferreira Distribuições, Belo Horizonte" },
-  { quote: "Aumentamos 38% no faturamento apenas organizando o atendimento.", author: "Patrícia Lopes", company: "Lopes Estética Avançada, Rio de Janeiro" },
-  { quote: "Reduzimos em 61% o tempo médio de resposta.", author: "Fernanda Martins", company: "Martins Consultoria, Curitiba" },
-  { quote: "Hoje consigo sair com minha família e sei que as vendas continuam.", author: "Roberto Almeida", company: "Almeida Autopeças, Campinas" },
-];
-
-const stats = [
-  { value: 35, prefix: "+", suffix: "%", label: "Faturamento" },
-  { value: 52, prefix: "+", suffix: "%", label: "Produtividade" },
-  { value: 61, prefix: "-", suffix: "%", label: "Tempo de Resposta" },
-  { value: 29, prefix: "+", suffix: "%", label: "Taxa de Conversão" },
+const statsData = [
+  { value: 35, prefix: "+", suffix: "%" },
+  { value: 52, prefix: "+", suffix: "%" },
+  { value: 61, prefix: "-", suffix: "%" },
+  { value: 29, prefix: "+", suffix: "%" },
 ];
 
 const Counter = ({ value, prefix, suffix }: { value: number; prefix: string; suffix: string }) => {
@@ -41,68 +35,70 @@ const Counter = ({ value, prefix, suffix }: { value: number; prefix: string; suf
   );
 };
 
-const Results = () => (
-  <section className="section-padding">
-    <div className="max-w-6xl mx-auto">
-      <motion.h2
-        initial={{ opacity: 0, y: 30 }}
-        whileInView={{ opacity: 1, y: 0 }}
-        viewport={{ once: true }}
-        transition={{ duration: 0.6 }}
-        className="text-3xl md:text-5xl lg:text-6xl font-bold font-display text-center mb-6"
-      >
-        Resultados que <span className="gradient-text">falam</span>
-      </motion.h2>
+const Results = () => {
+  const { t } = useLanguage();
 
-      <motion.p
-        initial={{ opacity: 0, y: 20 }}
-        whileInView={{ opacity: 1, y: 0 }}
-        viewport={{ once: true }}
-        transition={{ duration: 0.6, delay: 0.1 }}
-        className="text-muted-foreground text-lg text-center max-w-2xl mx-auto mb-16"
-      >
-        Dados médios nos primeiros 90 dias de uso.
-      </motion.p>
+  return (
+    <section className="section-padding">
+      <div className="max-w-6xl mx-auto">
+        <motion.h2
+          initial={{ opacity: 0, y: 30 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          transition={{ duration: 0.6 }}
+          className="text-3xl md:text-5xl lg:text-6xl font-bold font-display text-center mb-6"
+        >
+          {t.results.title} <span className="gradient-text">{t.results.titleHighlight}</span>
+        </motion.h2>
 
-      {/* Stats */}
-      <div className="grid grid-cols-2 md:grid-cols-4 gap-6 mb-16">
-        {stats.map((s, i) => (
-          <motion.div
-            key={s.label}
-            initial={{ opacity: 0, scale: 0.9 }}
-            whileInView={{ opacity: 1, scale: 1 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.5, delay: i * 0.1 }}
-            className="glass-card p-6 md:p-8 text-center flex flex-col items-center justify-center"
-          >
-            <Counter value={s.value} prefix={s.prefix} suffix={s.suffix} />
-            <span className="text-muted-foreground text-xs md:text-sm uppercase tracking-wider">{s.label}</span>
-          </motion.div>
-        ))}
+        <motion.p
+          initial={{ opacity: 0, y: 20 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          transition={{ duration: 0.6, delay: 0.1 }}
+          className="text-muted-foreground text-lg text-center max-w-2xl mx-auto mb-16"
+        >
+          {t.results.description}
+        </motion.p>
+
+        <div className="grid grid-cols-2 md:grid-cols-4 gap-6 mb-16">
+          {statsData.map((s, i) => (
+            <motion.div
+              key={i}
+              initial={{ opacity: 0, scale: 0.9 }}
+              whileInView={{ opacity: 1, scale: 1 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.5, delay: i * 0.1 }}
+              className="glass-card p-6 md:p-8 text-center flex flex-col items-center justify-center"
+            >
+              <Counter value={s.value} prefix={s.prefix} suffix={s.suffix} />
+              <span className="text-muted-foreground text-xs md:text-sm uppercase tracking-wider">{t.results.statsLabels[i]}</span>
+            </motion.div>
+          ))}
+        </div>
+
+        <div className="grid md:grid-cols-2 gap-6">
+          {t.results.testimonials.map((item, i) => (
+            <motion.div
+              key={i}
+              initial={{ opacity: 0, y: 30 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.5, delay: i * 0.08 }}
+              className="glass-card p-8"
+            >
+              <Quote className="w-6 h-6 text-primary/40 mb-3" />
+              <p className="text-foreground leading-relaxed mb-4">"{item.quote}"</p>
+              <div>
+                <p className="text-sm font-semibold text-foreground">— {item.author}</p>
+                <p className="text-xs text-muted-foreground">{item.company}</p>
+              </div>
+            </motion.div>
+          ))}
+        </div>
       </div>
-
-      {/* Testimonials */}
-      <div className="grid md:grid-cols-2 gap-6">
-        {testimonials.map((t, i) => (
-          <motion.div
-            key={i}
-            initial={{ opacity: 0, y: 30 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.5, delay: i * 0.08 }}
-            className="glass-card p-8"
-          >
-            <Quote className="w-6 h-6 text-primary/40 mb-3" />
-            <p className="text-foreground leading-relaxed mb-4">"{t.quote}"</p>
-            <div>
-              <p className="text-sm font-semibold text-foreground">— {t.author}</p>
-              <p className="text-xs text-muted-foreground">{t.company}</p>
-            </div>
-          </motion.div>
-        ))}
-      </div>
-    </div>
-  </section>
-);
+    </section>
+  );
+};
 
 export default Results;

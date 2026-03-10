@@ -2,48 +2,9 @@ import { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { ArrowUp, X, ArrowLeft } from "lucide-react";
 import logoLymonx from "@/assets/logo-lymonx.png";
-
-const footerCols = [
-  {
-    title: "Produtos",
-    links: [
-      { label: "Funcionalidades", href: "#funcionalidades" },
-      { label: "Planos", href: "#planos" },
-      { label: "Depoimentos", href: "#depoimentos" },
-    ],
-  },
-  {
-    title: "Empresa",
-    links: [
-      { label: "Quem Somos", href: "#plataforma" },
-      { label: "Contato", href: "#contato" },
-    ],
-  },
-  {
-    title: "Suporte",
-    links: [
-      { label: "FAQ", href: "#faq" },
-      { label: "LGPD", href: "#lgpd" },
-    ],
-  },
-];
+import { useLanguage } from "@/i18n/LanguageContext";
 
 type ModalKey = "faq" | "lgpd" | "contato" | null;
-
-const modalContent: Record<string, { title: string; body: string }> = {
-  faq: {
-    title: "Perguntas Frequentes",
-    body: "Entre em contato pelo WhatsApp para tirar suas dúvidas. Nossa equipe responde em até 5 minutos durante o horário comercial.",
-  },
-  lgpd: {
-    title: "Política de Privacidade — LGPD",
-    body: "A LymonX respeita sua privacidade. Todos os dados são tratados conforme a Lei Geral de Proteção de Dados (LGPD). Para mais informações, entre em contato conosco.",
-  },
-  contato: {
-    title: "Contato",
-    body: "Fale conosco pelo WhatsApp ou envie um e-mail para contato@lymonx.com. Estamos sempre prontos para ajudar.",
-  },
-};
 
 const scrollToTop = () => {
   window.scrollTo({ top: 0, behavior: "smooth" });
@@ -51,14 +12,32 @@ const scrollToTop = () => {
 
 const Footer = () => {
   const [openModal, setOpenModal] = useState<ModalKey>(null);
+  const { t } = useLanguage();
 
-  const handleLinkClick = (href: string, label: string) => {
-    const key = label.toLowerCase() as ModalKey;
-    if (key && modalContent[key]) {
-      setOpenModal(key);
-    }
-    // anchor links still work for sections that exist
-  };
+  const footerCols = [
+    {
+      title: t.footer.products,
+      links: [
+        { label: t.footer.links.features, href: "#funcionalidades" },
+        { label: t.footer.links.plans, href: "#planos" },
+        { label: t.footer.links.testimonials, href: "#depoimentos" },
+      ],
+    },
+    {
+      title: t.footer.company,
+      links: [
+        { label: t.footer.links.about, href: "#plataforma" },
+        { label: t.footer.links.contact, href: "#contato", modal: "contato" as ModalKey },
+      ],
+    },
+    {
+      title: t.footer.support,
+      links: [
+        { label: t.footer.links.faq, href: "#faq", modal: "faq" as ModalKey },
+        { label: t.footer.links.lgpd, href: "#lgpd", modal: "lgpd" as ModalKey },
+      ],
+    },
+  ];
 
   return (
     <>
@@ -74,10 +53,10 @@ const Footer = () => {
                       <a
                         href={link.href}
                         onClick={(e) => {
-                          const key = link.label.toLowerCase() as ModalKey;
-                          if (key && modalContent[key]) {
+                          const modal = (link as any).modal as ModalKey;
+                          if (modal) {
                             e.preventDefault();
-                            handleLinkClick(link.href, link.label);
+                            setOpenModal(modal);
                           }
                         }}
                         className="text-sm text-muted-foreground hover:text-foreground transition-colors"
@@ -96,10 +75,10 @@ const Footer = () => {
               <img src={logoLymonx} alt="LymonX" className="h-8 w-auto" />
             </a>
             <p className="text-sm text-muted-foreground">
-              © 2026 LymonX. Todos os direitos reservados.
+              © 2026 LymonX. {t.footer.rights}
             </p>
             <p className="text-sm text-muted-foreground mr-16">
-              Empresa do Grupo{" "}
+              {t.footer.groupLabel}{" "}
               <a
                 href="https://www.wayweb.com.br"
                 target="_blank"
@@ -112,19 +91,17 @@ const Footer = () => {
           </div>
         </div>
 
-        {/* Back to top button */}
         <button
           onClick={scrollToTop}
           className="absolute right-6 bottom-6 md:right-10 md:bottom-10 p-2.5 rounded-full border border-border text-muted-foreground hover:text-foreground hover:border-primary/50 transition-all duration-300 group"
-          aria-label="Voltar ao topo"
+          aria-label={t.footer.backToTop}
         >
           <ArrowUp size={18} className="group-hover:-translate-y-0.5 transition-transform duration-200" />
         </button>
       </footer>
 
-      {/* Modal overlay */}
       <AnimatePresence>
-        {openModal && modalContent[openModal] && (
+        {openModal && t.footer.modals[openModal] && (
           <motion.div
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
@@ -140,29 +117,27 @@ const Footer = () => {
               className="glass-card p-8 md:p-10 max-w-lg w-full relative"
               onClick={(e) => e.stopPropagation()}
             >
-              {/* Close button */}
               <button
                 onClick={() => setOpenModal(null)}
                 className="absolute top-4 right-4 p-1.5 rounded-full text-muted-foreground hover:text-foreground hover:bg-muted/50 transition-colors"
-                aria-label="Fechar"
+                aria-label="Close"
               >
                 <X size={18} />
               </button>
 
               <h3 className="text-xl font-bold font-display text-foreground mb-4">
-                {modalContent[openModal].title}
+                {t.footer.modals[openModal].title}
               </h3>
               <p className="text-muted-foreground leading-relaxed mb-6">
-                {modalContent[openModal].body}
+                {t.footer.modals[openModal].body}
               </p>
 
-              {/* Back button */}
               <button
                 onClick={() => setOpenModal(null)}
                 className="inline-flex items-center gap-2 text-sm text-primary hover:text-primary/80 transition-colors"
               >
                 <ArrowLeft size={14} />
-                Voltar
+                {t.footer.back}
               </button>
             </motion.div>
           </motion.div>
