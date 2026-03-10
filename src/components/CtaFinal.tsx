@@ -11,16 +11,9 @@ const CtaFinal = () => (
         transition={{ duration: 0.6 }}
         className="text-3xl md:text-5xl lg:text-6xl font-bold font-display mb-8 leading-tight"
       >
-        <span className="text-primary">Pare</span>{" "}
-        <span className="text-foreground">de</span>{" "}
-        <span className="text-primary">perder</span>{" "}
-        <span className="text-foreground">vendas.</span>
+        Pare de <span className="text-primary">perder vendas.</span>
         <br />
-        <span className="text-primary">Viva</span>{" "}
-        <span className="text-foreground">a</span>{" "}
-        <span className="text-primary">liberdade</span>{" "}
-        <span className="text-foreground">de</span>{" "}
-        <span className="text-primary">tempo.</span>
+        Viva a <span className="text-primary">liberdade de tempo.</span>
       </motion.h2>
 
       <motion.a
