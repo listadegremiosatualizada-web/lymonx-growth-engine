@@ -29,11 +29,11 @@ const Header = () => {
         <nav className="hidden md:flex items-center gap-8">
           {navLinks.map((link) => (
             <a
-              key={link}
-              href={`#${link.toLowerCase()}`}
+              key={link.label}
+              href={link.href}
               className="text-sm text-muted-foreground hover:text-foreground transition-colors duration-200"
             >
-              {link}
+              {link.label}
             </a>
           ))}
         </nav>
