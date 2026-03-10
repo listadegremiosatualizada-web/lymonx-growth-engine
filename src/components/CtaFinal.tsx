@@ -13,7 +13,7 @@ const CtaFinal = () => (
       >
         Pare de <span className="text-primary">perder vendas.</span>
         <br />
-        Viva a <span className="text-primary">liberdade de tempo.</span>
+        Viva a liberdade de tempo.
       </motion.h2>
 
       <motion.a
