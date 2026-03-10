@@ -91,7 +91,7 @@
   }
 
   .gradient-text {
-    @apply bg-clip-text text-transparent bg-gradient-to-r from-primary to-lime-300;
+    @apply bg-clip-text text-transparent bg-gradient-to-r from-primary to-emerald-300;
   }
 
   .section-padding {
