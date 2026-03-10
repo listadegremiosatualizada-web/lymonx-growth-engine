@@ -78,7 +78,7 @@
 
   .neon-text {
     @apply text-primary;
-    text-shadow: 0 0 10px hsl(120 100% 50% / 1), 0 0 30px hsl(120 100% 50% / 0.7), 0 0 60px hsl(120 100% 50% / 0.4);
+    text-shadow: 0 0 10px hsl(156 100% 50% / 1), 0 0 30px hsl(156 100% 50% / 0.7), 0 0 60px hsl(156 100% 50% / 0.4);
   }
 
   .neon-border {
