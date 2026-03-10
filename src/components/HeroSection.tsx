@@ -59,9 +59,9 @@ const HeroSection = () => {
             </h1>
 
             <p className="text-lg md:text-xl text-muted-foreground max-w-3xl mx-auto mb-12 leading-relaxed">
-              Nós somos a LymonX, um hub de tecnologia que ajuda empresas a vender mais através de{" "}
-              <span className="text-foreground font-medium">automação, inteligência artificial</span> e
-              soluções digitais como sites, dashboards e agentes de atendimento.
+              A LymonX estrutura a base digital da sua empresa e integra{" "}
+              <span className="text-foreground font-medium">automação inteligente</span> para transformar
+              atendimento em organização, controle e crescimento escalável.
             </p>
 
             <motion.a
