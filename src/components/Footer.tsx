@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { ArrowUp, X, ArrowLeft } from "lucide-react";
+import logoLymonx from "@/assets/logo-lymonx.png";
 
 const footerCols = [
   {
