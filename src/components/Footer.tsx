@@ -62,7 +62,7 @@ const Footer = () => {
 
   return (
     <>
-      <footer className="border-t border-border section-padding py-16 relative">
+      <footer className="bg-background border-t border-border section-padding py-16 relative">
         <div className="max-w-6xl mx-auto">
           <div className="grid grid-cols-2 md:grid-cols-3 gap-10 mb-16">
             {footerCols.map((col) => (
