@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { Menu, X } from "lucide-react";
+import logoLx from "@/assets/logo-lx.jpeg";
 
 const navLinks = [
   { label: "Início", href: "#" },
@@ -21,8 +22,8 @@ const Header = () => {
       className="fixed top-0 left-0 right-0 z-50 glass-card rounded-none border-x-0 border-t-0"
     >
       <div className="max-w-7xl mx-auto flex items-center justify-between px-6 py-4">
-        <a href="#" className="text-2xl font-bold font-display neon-text tracking-tight uppercase">
-          LX
+        <a href="#">
+          <img src={logoLx} alt="LymonX" className="h-8 md:h-10 w-auto" />
         </a>
 
         {/* Desktop nav */}
