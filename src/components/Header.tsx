@@ -4,7 +4,6 @@ import { Menu, X } from "lucide-react";
 import logoLx from "@/assets/logo-lx.jpeg";
 
 const navLinks = [
-  { label: "Início", href: "#" },
   { label: "Quem Somos", href: "#plataforma" },
   { label: "Funcionalidades", href: "#funcionalidades" },
   { label: "Planos", href: "#planos" },
