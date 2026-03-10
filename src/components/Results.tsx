@@ -3,10 +3,10 @@ import { Quote } from "lucide-react";
 import { useRef, useEffect, useState } from "react";
 
 const testimonials = [
-  { quote: "Saímos do caos para uma operação organizada e aumentamos 34% nossa conversão.", author: "Marcelo Ferreira" },
-  { quote: "Aumentamos 38% no faturamento apenas organizando o atendimento.", author: "Patrícia Lopes" },
-  { quote: "Reduzimos em 61% o tempo médio de resposta.", author: "Fernanda Martins" },
-  { quote: "Hoje consigo sair com minha família e sei que as vendas continuam.", author: "Roberto Almeida" },
+  { quote: "Saímos do caos para uma operação organizada e aumentamos 34% nossa conversão.", author: "Marcelo Ferreira", company: "Ferreira Distribuições, Belo Horizonte" },
+  { quote: "Aumentamos 38% no faturamento apenas organizando o atendimento.", author: "Patrícia Lopes", company: "Lopes Estética Avançada, Rio de Janeiro" },
+  { quote: "Reduzimos em 61% o tempo médio de resposta.", author: "Fernanda Martins", company: "Martins Consultoria, Curitiba" },
+  { quote: "Hoje consigo sair com minha família e sei que as vendas continuam.", author: "Roberto Almeida", company: "Almeida Autopeças, Campinas" },
 ];
 
 const stats = [
@@ -94,7 +94,10 @@ const Results = () => (
           >
             <Quote className="w-6 h-6 text-primary/40 mb-3" />
             <p className="text-foreground leading-relaxed mb-4">"{t.quote}"</p>
-            <p className="text-sm font-semibold text-muted-foreground">— {t.author}</p>
+            <div>
+              <p className="text-sm font-semibold text-foreground">— {t.author}</p>
+              <p className="text-xs text-muted-foreground">{t.company}</p>
+            </div>
           </motion.div>
         ))}
       </div>

@@ -3,14 +3,24 @@ import { Quote } from "lucide-react";
 
 const testimonials = [
   {
-    quote: "Eu vivia apagando incêndios no WhatsApp. Hoje tenho equipe organizada por setores e vendo até quando estou fora da empresa.",
-    author: "Carlos Mendes",
-    company: "Diretor Comercial da Mendes Alimentos Industriais",
+    quote: "A LymonX organizou nosso atendimento e nosso site ficou impecável. Hoje vendemos muito mais com automação.",
+    author: "Michelle",
+    company: "Kuxo Imports — Loja de Bolsas de Luxo, São Paulo",
   },
   {
-    quote: "A LymonX não organizou só meu atendimento. Organizou minha empresa inteira.",
-    author: "Juliana Ribeiro",
-    company: "CEO da Grupo Vida Plena Clínicas Integradas",
+    quote: "Automação de atendimento e site profissional transformaram nossas vendas. Recomendo demais.",
+    author: "Silvio",
+    company: "YMZ — Loja de Artigos Masculinos, São Paulo",
+  },
+  {
+    quote: "Conseguimos integrar múltiplos canais de atendimento e automatizar tudo. A operação ficou muito mais eficiente.",
+    author: "Jonas",
+    company: "BrandCard — Fintech, São Paulo",
+  },
+  {
+    quote: "O UPGram mudou completamente minha presença digital. Resultados incríveis em pouco tempo.",
+    author: "Sheriren",
+    company: "Isadora UPGram — Cliente, São Paulo",
   },
 ];
 
