@@ -66,12 +66,12 @@ const Header = () => {
             <nav className="flex flex-col gap-4 px-6 py-6">
               {navLinks.map((link) => (
                 <a
-                  key={link}
-                  href={`#${link.toLowerCase()}`}
+                  key={link.label}
+                  href={link.href}
                   onClick={() => setMobileOpen(false)}
                   className="text-muted-foreground hover:text-foreground transition-colors"
                 >
-                  {link}
+                  {link.label}
                 </a>
               ))}
               <a
