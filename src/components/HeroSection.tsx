@@ -1,16 +1,18 @@
 import { motion, AnimatePresence } from "framer-motion";
 import { useState, useEffect } from "react";
 import { Zap } from "lucide-react";
-
-const phrases = [
-  "Organização.",
-  "Escala.",
-  "Resultado.",
-];
+import { useLanguage } from "@/i18n/LanguageContext";
 
 const HeroSection = () => {
+  const { t } = useLanguage();
+  const phrases = [...t.hero.phrases];
   const [currentPhrase, setCurrentPhrase] = useState(0);
   const [showMain, setShowMain] = useState(false);
+
+  useEffect(() => {
+    setCurrentPhrase(0);
+    setShowMain(false);
+  }, [t]);
 
   useEffect(() => {
     if (currentPhrase < phrases.length - 1) {
@@ -20,15 +22,13 @@ const HeroSection = () => {
       const timer = setTimeout(() => setShowMain(true), 2000);
       return () => clearTimeout(timer);
     }
-  }, [currentPhrase]);
+  }, [currentPhrase, phrases.length]);
 
   return (
     <section className="relative min-h-screen flex items-center justify-center section-padding pt-32 overflow-hidden">
-      {/* Background glow */}
       <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] rounded-full bg-primary/5 blur-[120px] pointer-events-none" />
 
       <div className="relative z-10 max-w-5xl mx-auto text-center">
-        {/* Animated phrases */}
         {!showMain && (
           <div className="h-[120px] md:h-[160px] flex items-center justify-center">
             <AnimatePresence mode="wait">
@@ -46,7 +46,6 @@ const HeroSection = () => {
           </div>
         )}
 
-        {/* Main content */}
         {showMain && (
           <motion.div
             initial={{ opacity: 0, y: 40 }}
@@ -55,13 +54,12 @@ const HeroSection = () => {
           >
             <h1 className="text-4xl md:text-6xl lg:text-[5rem] font-bold font-display leading-tight mb-8">
               <span className="gradient-text">LymonX:</span>{" "}
-              <span className="text-foreground">Uma nova era para quem decidiu crescer.</span>
+              <span className="text-foreground">{t.hero.title}</span>
             </h1>
 
             <p className="text-lg md:text-xl text-muted-foreground max-w-3xl mx-auto mb-12 leading-relaxed">
-              A LymonX estrutura a base digital da sua empresa e integra{" "}
-              <span className="text-foreground font-medium">automação inteligente</span> para transformar
-              atendimento em organização, controle e crescimento escalável.
+              {t.hero.description}{" "}
+              <span className="text-foreground font-medium">{t.hero.descHighlight}</span> {t.hero.descEnd}
             </p>
 
             <motion.a
@@ -71,7 +69,7 @@ const HeroSection = () => {
               className="inline-flex items-center gap-3 px-10 py-5 text-lg font-semibold rounded-full bg-primary text-primary-foreground neon-glow-box hover:brightness-110 transition-all duration-300 animate-pulse-neon"
             >
               <Zap className="w-5 h-5" />
-              Comece Agora – Entre no Ecossistema LymonX
+              {t.hero.button}
             </motion.a>
           </motion.div>
         )}

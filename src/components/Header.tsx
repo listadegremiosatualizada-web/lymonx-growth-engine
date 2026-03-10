@@ -2,16 +2,19 @@ import { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { Menu, X } from "lucide-react";
 import logoLx from "@/assets/logo-lx.jpeg";
-
-const navLinks = [
-  { label: "Quem Somos", href: "#plataforma" },
-  { label: "Funcionalidades", href: "#funcionalidades" },
-  { label: "Planos", href: "#planos" },
-  { label: "Depoimentos", href: "#depoimentos" },
-];
+import { useLanguage } from "@/i18n/LanguageContext";
+import LanguageSelector from "@/components/LanguageSelector";
 
 const Header = () => {
   const [mobileOpen, setMobileOpen] = useState(false);
+  const { t } = useLanguage();
+
+  const navLinks = [
+    { label: t.nav.about, href: "#plataforma" },
+    { label: t.nav.features, href: "#funcionalidades" },
+    { label: t.nav.plans, href: "#planos" },
+    { label: t.nav.testimonials, href: "#depoimentos" },
+  ];
 
   return (
     <motion.header
@@ -38,21 +41,27 @@ const Header = () => {
           ))}
         </nav>
 
-        <a
-          href="#planos"
-          className="hidden md:inline-flex items-center gap-2 px-5 py-2.5 text-sm font-medium rounded-full neon-border text-primary hover:bg-primary/10 transition-all duration-300"
-        >
-          Entrar no Ecossistema
-        </a>
+        <div className="hidden md:flex items-center gap-3">
+          <LanguageSelector />
+          <a
+            href="#planos"
+            className="inline-flex items-center gap-2 px-5 py-2.5 text-sm font-medium rounded-full neon-border text-primary hover:bg-primary/10 transition-all duration-300"
+          >
+            {t.nav.cta}
+          </a>
+        </div>
 
         {/* Mobile toggle */}
-        <button
-          onClick={() => setMobileOpen(!mobileOpen)}
-          className="md:hidden text-foreground"
-          aria-label="Toggle menu"
-        >
-          {mobileOpen ? <X size={24} /> : <Menu size={24} />}
-        </button>
+        <div className="flex md:hidden items-center gap-2">
+          <LanguageSelector />
+          <button
+            onClick={() => setMobileOpen(!mobileOpen)}
+            className="text-foreground"
+            aria-label="Toggle menu"
+          >
+            {mobileOpen ? <X size={24} /> : <Menu size={24} />}
+          </button>
+        </div>
       </div>
 
       <AnimatePresence>
@@ -79,7 +88,7 @@ const Header = () => {
                 onClick={() => setMobileOpen(false)}
                 className="inline-flex items-center justify-center gap-2 px-5 py-2.5 text-sm font-medium rounded-full neon-border text-primary hover:bg-primary/10 transition-all duration-300"
               >
-                Entrar no Ecossistema
+                {t.nav.cta}
               </a>
             </nav>
           </motion.div>
