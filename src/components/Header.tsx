@@ -18,7 +18,7 @@ const Header = () => {
       initial={{ y: -40, opacity: 0 }}
       animate={{ y: 0, opacity: 1 }}
       transition={{ duration: 0.7, ease: "easeOut" }}
-      className="fixed top-0 left-0 right-0 z-50 glass-card rounded-none border-x-0 border-t-0"
+      className="fixed top-0 left-0 right-0 z-50 bg-background border-b border-border rounded-none"
     >
       <div className="max-w-7xl mx-auto flex items-center justify-between px-6 py-4">
         <a href="#">
