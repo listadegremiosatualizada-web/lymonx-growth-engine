@@ -14,7 +14,7 @@ export const localeFlags: Record<Locale, string> = {
   "en": "🇬🇧",
 };
 
-export type Translations = typeof translations["pt-BR"];
+export type Translations = (typeof translations)[Locale];
 
 export const translations = {
   "pt-BR": {
