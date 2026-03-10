@@ -1,5 +1,6 @@
-import { motion } from "framer-motion";
+import { motion, useInView } from "framer-motion";
 import { Quote } from "lucide-react";
+import { useRef, useEffect, useState } from "react";
 
 const testimonials = [
   { quote: "Saímos do caos para uma operação organizada e aumentamos 34% nossa conversão.", author: "Marcelo Ferreira" },
@@ -9,11 +10,36 @@ const testimonials = [
 ];
 
 const stats = [
-  { value: "+35%", label: "Faturamento" },
-  { value: "+52%", label: "Produtividade" },
-  { value: "-61%", label: "Tempo de Resposta" },
-  { value: "+29%", label: "Taxa de Conversão" },
+  { value: 35, prefix: "+", suffix: "%", label: "Faturamento" },
+  { value: 52, prefix: "+", suffix: "%", label: "Produtividade" },
+  { value: 61, prefix: "-", suffix: "%", label: "Tempo de Resposta" },
+  { value: 29, prefix: "+", suffix: "%", label: "Taxa de Conversão" },
 ];
+
+const Counter = ({ value, prefix, suffix }: { value: number; prefix: string; suffix: string }) => {
+  const ref = useRef<HTMLSpanElement>(null);
+  const isInView = useInView(ref, { once: true });
+  const [count, setCount] = useState(0);
+
+  useEffect(() => {
+    if (!isInView) return;
+    let start = 0;
+    const duration = 1500;
+    const step = duration / value;
+    const timer = setInterval(() => {
+      start += 1;
+      setCount(start);
+      if (start >= value) clearInterval(timer);
+    }, step);
+    return () => clearInterval(timer);
+  }, [isInView, value]);
+
+  return (
+    <span ref={ref} className="block text-3xl md:text-5xl lg:text-6xl font-bold font-display neon-text mb-2">
+      {prefix}{count}{suffix}
+    </span>
+  );
+};
 
 const Results = () => (
   <section className="section-padding">
@@ -47,12 +73,10 @@ const Results = () => (
             whileInView={{ opacity: 1, scale: 1 }}
             viewport={{ once: true }}
             transition={{ duration: 0.5, delay: i * 0.1 }}
-            className="glass-card p-8 md:p-10 text-center"
+            className="glass-card p-6 md:p-8 text-center flex flex-col items-center justify-center"
           >
-            <span className="block text-4xl md:text-6xl font-bold font-display neon-text mb-2">
-              {s.value}
-            </span>
-            <span className="text-muted-foreground text-sm md:text-base">{s.label}</span>
+            <Counter value={s.value} prefix={s.prefix} suffix={s.suffix} />
+            <span className="text-muted-foreground text-xs md:text-sm uppercase tracking-wider">{s.label}</span>
           </motion.div>
         ))}
       </div>
