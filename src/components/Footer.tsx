@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { ArrowUp, X, ArrowLeft } from "lucide-react";
+import logoLymonx from "@/assets/logo-lymonx.png";
 
 const footerCols = [
   {
@@ -61,7 +62,7 @@ const Footer = () => {
 
   return (
     <>
-      <footer className="border-t border-border section-padding py-16 relative">
+      <footer className="bg-background border-t border-border section-padding py-16 relative">
         <div className="max-w-6xl mx-auto">
           <div className="grid grid-cols-2 md:grid-cols-3 gap-10 mb-16">
             {footerCols.map((col) => (
@@ -91,11 +92,13 @@ const Footer = () => {
           </div>
 
           <div className="flex flex-col md:flex-row items-center justify-between gap-4 pt-8 border-t border-border">
-            <a href="#" className="text-xl font-bold font-display neon-text">LymonX</a>
+            <a href="#">
+              <img src={logoLymonx} alt="LymonX" className="h-8 w-auto" />
+            </a>
             <p className="text-sm text-muted-foreground">
               © 2026 LymonX. Todos os direitos reservados.
             </p>
-            <p className="text-sm text-muted-foreground">
+            <p className="text-sm text-muted-foreground mr-16">
               Empresa do Grupo{" "}
               <a
                 href="https://www.wayweb.com.br"
