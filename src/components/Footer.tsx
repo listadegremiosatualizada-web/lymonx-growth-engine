@@ -92,11 +92,13 @@ const Footer = () => {
           </div>
 
           <div className="flex flex-col md:flex-row items-center justify-between gap-4 pt-8 border-t border-border">
-            <a href="#" className="text-xl font-bold font-display neon-text">LymonX</a>
+            <a href="#">
+              <img src={logoLymonx} alt="LymonX" className="h-8 w-auto" />
+            </a>
             <p className="text-sm text-muted-foreground">
               © 2026 LymonX. Todos os direitos reservados.
             </p>
-            <p className="text-sm text-muted-foreground">
+            <p className="text-sm text-muted-foreground mr-16">
               Empresa do Grupo{" "}
               <a
                 href="https://www.wayweb.com.br"
