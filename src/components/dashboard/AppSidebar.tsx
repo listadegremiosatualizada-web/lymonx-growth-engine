@@ -1,6 +1,7 @@
 import {
-  LayoutDashboard, MessageCircle, Users, Bot, Workflow, Settings,
+  LayoutDashboard, MessageCircle, Users, Bot, Workflow, Settings, LogOut,
 } from "lucide-react";
+import { useAuth } from "@/contexts/AuthContext";
 import { NavLink } from "@/components/NavLink";
 import { useLocation } from "react-router-dom";
 import {
