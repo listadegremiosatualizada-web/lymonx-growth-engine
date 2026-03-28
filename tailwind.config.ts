@@ -61,6 +61,13 @@ export default {
           border: "hsl(var(--sidebar-border))",
           ring: "hsl(var(--sidebar-ring))",
         },
+        dash: {
+          bg: "#f8f9fb",
+          fg: "#1a1a2e",
+          muted: "#6b7280",
+          border: "#e5e7eb",
+          hover: "#f3f4f6",
+        },
       },
       borderRadius: {
         lg: "var(--radius)",
