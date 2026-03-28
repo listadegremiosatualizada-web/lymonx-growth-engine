@@ -14,7 +14,293 @@ export type Database = {
   }
   public: {
     Tables: {
-      [_ in never]: never
+      agents: {
+        Row: {
+          conversations: number | null
+          created_at: string
+          id: string
+          is_active: boolean | null
+          name: string
+          prompt: string | null
+          response_time: string | null
+          satisfaction: string | null
+          type: string
+          updated_at: string
+          user_id: string
+        }
+        Insert: {
+          conversations?: number | null
+          created_at?: string
+          id?: string
+          is_active?: boolean | null
+          name: string
+          prompt?: string | null
+          response_time?: string | null
+          satisfaction?: string | null
+          type?: string
+          updated_at?: string
+          user_id: string
+        }
+        Update: {
+          conversations?: number | null
+          created_at?: string
+          id?: string
+          is_active?: boolean | null
+          name?: string
+          prompt?: string | null
+          response_time?: string | null
+          satisfaction?: string | null
+          type?: string
+          updated_at?: string
+          user_id?: string
+        }
+        Relationships: []
+      }
+      automations: {
+        Row: {
+          action: string | null
+          agent_name: string | null
+          auto_confirm: boolean | null
+          created_at: string
+          delay_hours: number | null
+          id: string
+          is_active: boolean | null
+          message: string | null
+          name: string
+          runs: number | null
+          schedule_date: string | null
+          schedule_time: string | null
+          trigger_event: string | null
+          type: string
+          updated_at: string
+          user_id: string
+        }
+        Insert: {
+          action?: string | null
+          agent_name?: string | null
+          auto_confirm?: boolean | null
+          created_at?: string
+          delay_hours?: number | null
+          id?: string
+          is_active?: boolean | null
+          message?: string | null
+          name: string
+          runs?: number | null
+          schedule_date?: string | null
+          schedule_time?: string | null
+          trigger_event?: string | null
+          type?: string
+          updated_at?: string
+          user_id: string
+        }
+        Update: {
+          action?: string | null
+          agent_name?: string | null
+          auto_confirm?: boolean | null
+          created_at?: string
+          delay_hours?: number | null
+          id?: string
+          is_active?: boolean | null
+          message?: string | null
+          name?: string
+          runs?: number | null
+          schedule_date?: string | null
+          schedule_time?: string | null
+          trigger_event?: string | null
+          type?: string
+          updated_at?: string
+          user_id?: string
+        }
+        Relationships: []
+      }
+      contacts: {
+        Row: {
+          attendant_id: string | null
+          avatar: string | null
+          created_at: string
+          id: string
+          is_online: boolean | null
+          last_message: string | null
+          last_message_at: string | null
+          name: string
+          phone: string | null
+          status: string | null
+          unread_count: number | null
+          updated_at: string
+          user_id: string
+        }
+        Insert: {
+          attendant_id?: string | null
+          avatar?: string | null
+          created_at?: string
+          id?: string
+          is_online?: boolean | null
+          last_message?: string | null
+          last_message_at?: string | null
+          name: string
+          phone?: string | null
+          status?: string | null
+          unread_count?: number | null
+          updated_at?: string
+          user_id: string
+        }
+        Update: {
+          attendant_id?: string | null
+          avatar?: string | null
+          created_at?: string
+          id?: string
+          is_online?: boolean | null
+          last_message?: string | null
+          last_message_at?: string | null
+          name?: string
+          phone?: string | null
+          status?: string | null
+          unread_count?: number | null
+          updated_at?: string
+          user_id?: string
+        }
+        Relationships: []
+      }
+      integrations: {
+        Row: {
+          config: Json | null
+          created_at: string
+          id: string
+          integration_type: string
+          name: string
+          status: string | null
+          updated_at: string
+          user_id: string
+        }
+        Insert: {
+          config?: Json | null
+          created_at?: string
+          id?: string
+          integration_type: string
+          name: string
+          status?: string | null
+          updated_at?: string
+          user_id: string
+        }
+        Update: {
+          config?: Json | null
+          created_at?: string
+          id?: string
+          integration_type?: string
+          name?: string
+          status?: string | null
+          updated_at?: string
+          user_id?: string
+        }
+        Relationships: []
+      }
+      leads: {
+        Row: {
+          created_at: string
+          id: string
+          interest: string | null
+          name: string
+          origin: string | null
+          phone: string | null
+          stage: string | null
+          updated_at: string
+          user_id: string
+          value: string | null
+        }
+        Insert: {
+          created_at?: string
+          id?: string
+          interest?: string | null
+          name: string
+          origin?: string | null
+          phone?: string | null
+          stage?: string | null
+          updated_at?: string
+          user_id: string
+          value?: string | null
+        }
+        Update: {
+          created_at?: string
+          id?: string
+          interest?: string | null
+          name?: string
+          origin?: string | null
+          phone?: string | null
+          stage?: string | null
+          updated_at?: string
+          user_id?: string
+          value?: string | null
+        }
+        Relationships: []
+      }
+      messages: {
+        Row: {
+          attendant_id: string | null
+          contact_id: string
+          created_at: string
+          id: string
+          is_read: boolean | null
+          sender: string
+          text: string
+          user_id: string
+        }
+        Insert: {
+          attendant_id?: string | null
+          contact_id: string
+          created_at?: string
+          id?: string
+          is_read?: boolean | null
+          sender?: string
+          text: string
+          user_id: string
+        }
+        Update: {
+          attendant_id?: string | null
+          contact_id?: string
+          created_at?: string
+          id?: string
+          is_read?: boolean | null
+          sender?: string
+          text?: string
+          user_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "messages_contact_id_fkey"
+            columns: ["contact_id"]
+            isOneToOne: false
+            referencedRelation: "contacts"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      profiles: {
+        Row: {
+          avatar_url: string | null
+          created_at: string
+          display_name: string | null
+          id: string
+          updated_at: string
+          user_id: string
+        }
+        Insert: {
+          avatar_url?: string | null
+          created_at?: string
+          display_name?: string | null
+          id?: string
+          updated_at?: string
+          user_id: string
+        }
+        Update: {
+          avatar_url?: string | null
+          created_at?: string
+          display_name?: string | null
+          id?: string
+          updated_at?: string
+          user_id?: string
+        }
+        Relationships: []
+      }
     }
     Views: {
       [_ in never]: never
