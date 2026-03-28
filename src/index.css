@@ -97,6 +97,14 @@
   .section-padding {
     @apply px-6 md:px-12 lg:px-20 py-20 md:py-32;
   }
+
+  .dash-card {
+    @apply bg-white rounded-2xl border border-gray-100 shadow-sm;
+  }
+
+  .dash-bg {
+    background-color: #f8f9fb;
+  }
 }
 
 @layer utilities {
