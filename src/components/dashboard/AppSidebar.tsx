@@ -1,6 +1,7 @@
 import {
-  LayoutDashboard, MessageCircle, Users, Bot, Workflow, Settings,
+  LayoutDashboard, MessageCircle, Users, Bot, Workflow, Settings, LogOut,
 } from "lucide-react";
+import { useAuth } from "@/contexts/AuthContext";
 import { NavLink } from "@/components/NavLink";
 import { useLocation } from "react-router-dom";
 import {
@@ -21,6 +22,7 @@ export function AppSidebar() {
   const { state } = useSidebar();
   const collapsed = state === "collapsed";
   const location = useLocation();
+  const { signOut, user } = useAuth();
 
   return (
     <Sidebar collapsible="icon" className="border-r border-dash-border bg-white">
@@ -62,6 +64,13 @@ export function AppSidebar() {
           </SidebarGroupContent>
         </SidebarGroup>
       </SidebarContent>
+      <div className="mt-auto p-3 border-t border-gray-100">
+        <button onClick={signOut}
+          className="flex items-center gap-3 px-3 py-2.5 w-full rounded-xl text-sm font-medium text-red-500 hover:bg-red-50 transition-colors">
+          <LogOut className="h-5 w-5 shrink-0" />
+          {!collapsed && <span>Sair</span>}
+        </button>
+      </div>
     </Sidebar>
   );
 }
