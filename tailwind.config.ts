@@ -14,8 +14,7 @@ export default {
     },
     extend: {
       fontFamily: {
-        sans: ["Inter", "system-ui", "sans-serif"],
-        display: ["Space Grotesk", "Inter", "sans-serif"],
+        sans: ["Inter", "-apple-system", "BlinkMacSystemFont", "sans-serif"],
       },
       colors: {
         border: "hsl(var(--border))",
@@ -62,11 +61,11 @@ export default {
           ring: "hsl(var(--sidebar-ring))",
         },
         dash: {
-          bg: "#f8f9fb",
-          fg: "#1a1a2e",
-          muted: "#6b7280",
-          border: "#e5e7eb",
-          hover: "#f3f4f6",
+          bg: "#f8fafc",
+          fg: "#0f172a",
+          muted: "#64748b",
+          border: "#e2e8f0",
+          hover: "#f1f5f9",
         },
       },
       borderRadius: {
@@ -83,15 +82,25 @@ export default {
           from: { height: "var(--radix-accordion-content-height)" },
           to: { height: "0" },
         },
-        "pulse-neon": {
-          "0%, 100%": { boxShadow: "0 0 20px hsl(153 100% 50% / 0.4)" },
-          "50%": { boxShadow: "0 0 40px hsl(153 100% 50% / 0.7)" },
+        "fade-in": {
+          "0%": { opacity: "0", transform: "translateY(10px)" },
+          "100%": { opacity: "1", transform: "translateY(0)" },
+        },
+        "scale-in": {
+          "0%": { transform: "scale(0.95)", opacity: "0" },
+          "100%": { transform: "scale(1)", opacity: "1" },
+        },
+        "slide-in-right": {
+          "0%": { transform: "translateX(100%)" },
+          "100%": { transform: "translateX(0)" },
         },
       },
       animation: {
         "accordion-down": "accordion-down 0.2s ease-out",
         "accordion-up": "accordion-up 0.2s ease-out",
-        "pulse-neon": "pulse-neon 2s ease-in-out infinite",
+        "fade-in": "fade-in 0.4s cubic-bezier(0.16, 1, 0.3, 1)",
+        "scale-in": "scale-in 0.3s cubic-bezier(0.16, 1, 0.3, 1)",
+        "slide-in-right": "slide-in-right 0.3s cubic-bezier(0.16, 1, 0.3, 1)",
       },
     },
   },
