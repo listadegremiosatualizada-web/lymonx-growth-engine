@@ -1,5 +1,7 @@
-import { useState } from "react";
-import { Plus, GripVertical, Phone, Globe, Edit2, X, Check, UserPlus, Kanban, MessageCircle, Monitor, Megaphone, Share2, Sparkles, CheckCircle2 } from "lucide-react";
+import { useState, useEffect } from "react";
+import { Plus, GripVertical, Phone, Globe, Edit2, X, Check, UserPlus, Kanban, MessageCircle, Monitor, Megaphone, Share2, Sparkles, CheckCircle2, Loader2 } from "lucide-react";
+import { supabase } from "@/integrations/supabase/client";
+import { useAuth } from "@/contexts/AuthContext";
 
 type Stage = "novo" | "qualificando" | "proposta" | "fechado" | "perdido";
 
@@ -32,70 +34,89 @@ const origins = [
 
 const interests = ["Plano Basic", "Plano Pro", "Plano Enterprise", "Automação", "Integração API", "Consultoria", "Suporte", "Outro"];
 
-const now = () => new Date().toLocaleString("pt-BR", { day: "2-digit", month: "2-digit", year: "2-digit", hour: "2-digit", minute: "2-digit" });
-
-const initialLeads: Lead[] = [
-  { id: "1", name: "Ana Silva", phone: "(11) 99999-1234", origin: "WhatsApp", interest: "Plano Pro", stage: "novo", value: "R$ 2.500", createdAt: "28/03/26 14:30" },
-  { id: "2", name: "Carlos Santos", phone: "(11) 98888-5678", origin: "Site", interest: "Integração API", stage: "novo", value: "R$ 5.000", createdAt: "28/03/26 13:15" },
-  { id: "3", name: "Maria Oliveira", phone: "(21) 97777-9012", origin: "Campanha", interest: "Plano Enterprise", stage: "qualificando", value: "R$ 8.900", createdAt: "27/03/26 10:00" },
-  { id: "4", name: "João Mendes", phone: "(11) 96666-3456", origin: "WhatsApp", interest: "Automação", stage: "qualificando", value: "R$ 3.200", createdAt: "27/03/26 09:20" },
-  { id: "5", name: "Fernanda Lima", phone: "(31) 95555-7890", origin: "Indicação", interest: "Consultoria", stage: "proposta", value: "R$ 15.000", createdAt: "26/03/26 16:45" },
-  { id: "6", name: "Ricardo Alves", phone: "(11) 94444-1234", origin: "Site", interest: "Plano Pro", stage: "proposta", value: "R$ 12.300", createdAt: "26/03/26 11:30" },
-  { id: "7", name: "Patrícia Costa", phone: "(21) 93333-5678", origin: "WhatsApp", interest: "Suporte", stage: "fechado", value: "R$ 7.800", createdAt: "25/03/26 14:10" },
-  { id: "8", name: "Bruno Souza", phone: "(11) 92222-9012", origin: "Instagram", interest: "Plano Basic", stage: "perdido", value: "R$ 4.500", createdAt: "25/03/26 08:50" },
-];
-
-const emptyCapture = () => ({ name: "", phone: "", origin: "WhatsApp", interest: "" });
-
 const Leads = () => {
-  const [leads, setLeads] = useState<Lead[]>(initialLeads);
+  const { user } = useAuth();
+  const [leads, setLeads] = useState<Lead[]>([]);
+  const [loading, setLoading] = useState(true);
   const [draggedId, setDraggedId] = useState<string | null>(null);
   const [dragOverStage, setDragOverStage] = useState<Stage | null>(null);
   const [editingLead, setEditingLead] = useState<Lead | null>(null);
   const [showForm, setShowForm] = useState(false);
   const [tab, setTab] = useState<"kanban" | "captacao">("kanban");
-  const [capture, setCapture] = useState(emptyCapture());
+  const [capture, setCapture] = useState({ name: "", phone: "", origin: "WhatsApp", interest: "" });
   const [saved, setSaved] = useState(false);
+
+  const fetchLeads = async () => {
+    if (!user) return;
+    const { data } = await supabase
+      .from("leads")
+      .select("*")
+      .order("created_at", { ascending: false });
+    if (data) {
+      setLeads(data.map((l) => ({
+        id: l.id,
+        name: l.name,
+        phone: l.phone || "",
+        origin: l.origin || "WhatsApp",
+        interest: l.interest || "",
+        stage: (l.stage || "novo") as Stage,
+        value: l.value || "",
+        createdAt: new Date(l.created_at).toLocaleString("pt-BR", { day: "2-digit", month: "2-digit", year: "2-digit", hour: "2-digit", minute: "2-digit" }),
+      })));
+    }
+    setLoading(false);
+  };
+
+  useEffect(() => { fetchLeads(); }, [user]);
 
   const handleDragStart = (id: string) => setDraggedId(id);
   const handleDragEnd = () => { setDraggedId(null); setDragOverStage(null); };
   const handleDragOver = (e: React.DragEvent, stage: Stage) => { e.preventDefault(); setDragOverStage(stage); };
-  const handleDrop = (stage: Stage) => {
+  const handleDrop = async (stage: Stage) => {
     if (!draggedId) return;
     setLeads(leads.map((l) => (l.id === draggedId ? { ...l, stage } : l)));
+    await supabase.from("leads").update({ stage }).eq("id", draggedId);
     setDraggedId(null);
     setDragOverStage(null);
   };
 
-  const openNewLead = () => { setEditingLead({ id: Date.now().toString(), name: "", phone: "", origin: "WhatsApp", interest: "", stage: "novo", value: "", createdAt: now() }); setShowForm(true); };
+  const openNewLead = () => {
+    setEditingLead({ id: "", name: "", phone: "", origin: "WhatsApp", interest: "", stage: "novo", value: "", createdAt: "" });
+    setShowForm(true);
+  };
   const openEditLead = (lead: Lead) => { setEditingLead({ ...lead }); setShowForm(true); };
 
-  const saveLead = () => {
-    if (!editingLead || !editingLead.name.trim()) return;
-    const exists = leads.find((l) => l.id === editingLead.id);
-    if (exists) setLeads(leads.map((l) => (l.id === editingLead.id ? editingLead : l)));
-    else setLeads([...leads, editingLead]);
+  const saveLead = async () => {
+    if (!editingLead || !editingLead.name.trim() || !user) return;
+    if (editingLead.id) {
+      await supabase.from("leads").update({
+        name: editingLead.name, phone: editingLead.phone, origin: editingLead.origin,
+        interest: editingLead.interest, stage: editingLead.stage, value: editingLead.value,
+      }).eq("id", editingLead.id);
+    } else {
+      await supabase.from("leads").insert({
+        name: editingLead.name, phone: editingLead.phone, origin: editingLead.origin,
+        interest: editingLead.interest, stage: editingLead.stage, value: editingLead.value,
+        user_id: user.id,
+      });
+    }
     setShowForm(false);
     setEditingLead(null);
+    fetchLeads();
   };
 
   const cancelForm = () => { setShowForm(false); setEditingLead(null); };
 
-  const saveCapture = () => {
-    if (!capture.name.trim() || !capture.phone.trim()) return;
-    const newLead: Lead = {
-      id: Date.now().toString(),
-      name: capture.name,
-      phone: capture.phone,
-      origin: capture.origin,
-      interest: capture.interest,
-      stage: "novo",
-      createdAt: now(),
-    };
-    setLeads([newLead, ...leads]);
-    setCapture(emptyCapture());
+  const saveCapture = async () => {
+    if (!capture.name.trim() || !capture.phone.trim() || !user) return;
+    await supabase.from("leads").insert({
+      name: capture.name, phone: capture.phone, origin: capture.origin,
+      interest: capture.interest, stage: "novo", user_id: user.id,
+    });
+    setCapture({ name: "", phone: "", origin: "WhatsApp", interest: "" });
     setSaved(true);
     setTimeout(() => setSaved(false), 3000);
+    fetchLeads();
   };
 
   const getLeadsByStage = (stage: Stage) => leads.filter((l) => l.stage === stage);
@@ -107,7 +128,13 @@ const Leads = () => {
     return total.toLocaleString("pt-BR", { style: "currency", currency: "BRL" });
   };
 
-  const recentLeads = [...leads].sort((a, b) => b.id.localeCompare(a.id)).slice(0, 5);
+  const recentLeads = [...leads].slice(0, 5);
+
+  if (loading) return (
+    <div className="flex items-center justify-center h-64">
+      <Loader2 className="w-6 h-6 animate-spin text-primary" />
+    </div>
+  );
 
   return (
     <div className="space-y-5 max-w-full mx-auto">
@@ -117,7 +144,6 @@ const Leads = () => {
           <p className="text-sm text-dash-muted mt-1">Capture e gerencie seus leads</p>
         </div>
         <div className="flex items-center gap-2">
-          {/* Tabs */}
           <div className="flex bg-gray-100 p-0.5 rounded-xl">
             <button onClick={() => setTab("captacao")}
               className={`flex items-center gap-1.5 px-3 py-1.5 text-xs font-medium rounded-lg transition-all ${tab === "captacao" ? "bg-white text-dash-fg shadow-sm" : "text-gray-500"}`}>
@@ -136,10 +162,8 @@ const Leads = () => {
         </div>
       </div>
 
-      {/* Captação tab */}
       {tab === "captacao" && (
         <div className="grid lg:grid-cols-5 gap-6">
-          {/* Form */}
           <div className="lg:col-span-2">
             <div className="dash-card p-6">
               <div className="flex items-center gap-3 mb-6">
@@ -151,22 +175,17 @@ const Leads = () => {
                   <p className="text-xs text-dash-muted">Preencha os dados para adicionar ao CRM</p>
                 </div>
               </div>
-
               <div className="space-y-4">
                 <div>
                   <label className="text-xs font-medium text-dash-muted mb-1.5 block">Nome *</label>
                   <input value={capture.name} onChange={(e) => setCapture({ ...capture, name: e.target.value })}
-                    className="w-full py-2.5 px-3 text-sm bg-gray-50 rounded-xl outline-none focus:ring-2 focus:ring-primary/20 placeholder:text-gray-400"
-                    placeholder="Nome completo" />
+                    className="w-full py-2.5 px-3 text-sm bg-gray-50 rounded-xl outline-none focus:ring-2 focus:ring-primary/20 placeholder:text-gray-400" placeholder="Nome completo" />
                 </div>
-
                 <div>
                   <label className="text-xs font-medium text-dash-muted mb-1.5 block">Telefone *</label>
                   <input value={capture.phone} onChange={(e) => setCapture({ ...capture, phone: e.target.value })}
-                    className="w-full py-2.5 px-3 text-sm bg-gray-50 rounded-xl outline-none focus:ring-2 focus:ring-primary/20 placeholder:text-gray-400"
-                    placeholder="(00) 00000-0000" />
+                    className="w-full py-2.5 px-3 text-sm bg-gray-50 rounded-xl outline-none focus:ring-2 focus:ring-primary/20 placeholder:text-gray-400" placeholder="(00) 00000-0000" />
                 </div>
-
                 <div>
                   <label className="text-xs font-medium text-dash-muted mb-1.5 block">Origem do Lead</label>
                   <div className="grid grid-cols-2 gap-2">
@@ -184,7 +203,6 @@ const Leads = () => {
                     })}
                   </div>
                 </div>
-
                 <div>
                   <label className="text-xs font-medium text-dash-muted mb-1.5 block">Interesse</label>
                   <select value={capture.interest} onChange={(e) => setCapture({ ...capture, interest: e.target.value })}
@@ -193,7 +211,6 @@ const Leads = () => {
                     {interests.map((i) => <option key={i} value={i}>{i}</option>)}
                   </select>
                 </div>
-
                 <button onClick={saveCapture} disabled={!capture.name.trim() || !capture.phone.trim()}
                   className="w-full flex items-center justify-center gap-2 py-3 text-sm font-semibold bg-primary text-white rounded-xl hover:brightness-110 transition disabled:opacity-40 disabled:cursor-not-allowed">
                   {saved ? <><CheckCircle2 className="w-4 h-4" /> Lead salvo com sucesso!</> : <><UserPlus className="w-4 h-4" /> Salvar Lead</>}
@@ -201,8 +218,6 @@ const Leads = () => {
               </div>
             </div>
           </div>
-
-          {/* Recent leads preview */}
           <div className="lg:col-span-3">
             <div className="dash-card p-5 mb-4">
               <h3 className="text-sm font-semibold text-dash-fg mb-3">Visão rápida do funil</h3>
@@ -218,13 +233,13 @@ const Leads = () => {
                 })}
               </div>
             </div>
-
             <div className="dash-card p-5">
               <div className="flex items-center justify-between mb-4">
                 <h3 className="text-sm font-semibold text-dash-fg">Leads recentes</h3>
                 <button onClick={() => setTab("kanban")} className="text-xs text-primary font-medium hover:underline">Ver Kanban →</button>
               </div>
               <div className="space-y-2">
+                {recentLeads.length === 0 && <p className="text-sm text-gray-400 text-center py-4">Nenhum lead cadastrado</p>}
                 {recentLeads.map((lead) => {
                   const originCfg = origins.find((o) => o.value === lead.origin);
                   const OriginIcon = originCfg?.icon || Globe;
@@ -240,15 +255,9 @@ const Leads = () => {
                         </div>
                         <div className="flex items-center gap-2 mt-0.5">
                           <span className="text-[10px] text-dash-muted flex items-center gap-1"><Phone className="w-2.5 h-2.5" />{lead.phone}</span>
-                          <span className={`text-[9px] font-medium px-1.5 py-0.5 rounded ${originCfg?.color || "bg-gray-100 text-gray-500"}`}>
-                            {lead.origin}
-                          </span>
-                          {lead.interest && <span className="text-[9px] text-dash-muted">{lead.interest}</span>}
+                          <span className={`text-[9px] font-medium px-1.5 py-0.5 rounded ${originCfg?.color || "bg-gray-100 text-gray-500"}`}>{lead.origin}</span>
                         </div>
                       </div>
-                      <span className={`text-[9px] font-medium px-1.5 py-0.5 rounded ${stages.find(s => s.key === lead.stage)?.color.replace("border-", "text-").split(" ")[0]} text-dash-fg`}>
-                        {stages.find(s => s.key === lead.stage)?.label}
-                      </span>
                     </div>
                   );
                 })}
@@ -258,7 +267,6 @@ const Leads = () => {
         </div>
       )}
 
-      {/* Kanban tab */}
       {tab === "kanban" && (
         <div className="flex gap-4 overflow-x-auto pb-4" style={{ minHeight: "calc(100vh - 12rem)" }}>
           {stages.map((stage) => {
@@ -312,12 +320,11 @@ const Leads = () => {
         </div>
       )}
 
-      {/* Modal form */}
       {showForm && editingLead && (
         <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/30 backdrop-blur-sm">
           <div className="bg-white rounded-2xl shadow-xl w-full max-w-md p-6 m-4">
             <div className="flex items-center justify-between mb-5">
-              <h3 className="text-lg font-semibold text-dash-fg">{leads.find((l) => l.id === editingLead.id) ? "Editar Lead" : "Novo Lead"}</h3>
+              <h3 className="text-lg font-semibold text-dash-fg">{editingLead.id ? "Editar Lead" : "Novo Lead"}</h3>
               <button onClick={cancelForm} className="p-1.5 rounded-xl hover:bg-gray-100 text-gray-400"><X className="w-4 h-4" /></button>
             </div>
             <div className="space-y-4">
